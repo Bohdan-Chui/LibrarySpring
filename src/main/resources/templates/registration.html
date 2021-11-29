@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title th:text="#{signup}"/></title>
+</head>
+<body>
+<div class="container">
+    <div class="d-flex justify-content-center pt-4 mt-3 fs-4" th:text="#{registration}">
+    </div>
+    <div class="d-flex justify-content-center pt-3">
+        <form th:href="@{/registration}" th:object="${user}" method="post">
+            <div class="mb-3">
+                <label for="inputPatronymic" class="form-label"th:text="#{patronymic}"></label>
+                <input type="text" th:field="*{patronymic}" required name="patronymic" class="form-control" id="inputPatronymic"
+                        th:placeholder="#{enterPatronymic}"}/>
+            </div>
+            <div class="mb-3">
+                <label for="inputFirstName" class="form-label"th:text="#{firstname}"></label>
+                <input type="text" th:field="*{firstName}" required name="firstname" class="form-control" id="inputFirstName"
+                       th:placeholder="#{inputFirstName}">
+            </div>
+            <div class="mb-3">
+                <label for="inputSecondName" class="form-label"th:text="#{secondname}"></label>
+                <input type="text" th:field="*{secondName}" required name="secondname" class="form-control" id="inputSecondName"
+                       th:placeholder="#{inputSecondname}">
+            </div>
+            <div class="mb-3">
+                <label for="inputEmail1" class="form-label" th:text="#{email}"></label>
+                <input type="text" required th:field="*{email}"  class="form-control" id="inputEmail1" th:placeholder="#{inputEmail}">
+                <div id="emailHelp" class="form-text"th:text="#{safety}"></div>
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword1" th:field="*{password}" class="form-label"th:text="#{inputPassword}"></label>
+                <input type="password" required name="password" class="form-control" id="inputPassword1" th:placeholder="#{inputPassword}">
+            </div>
+            <button type="submit" class="btn btn-primary"th:text="#{submit}"></button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
