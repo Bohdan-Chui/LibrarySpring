@@ -1,10 +1,14 @@
 package com.bohdan.libraryspring.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Set;
 
 @Data
 @Entity
@@ -12,7 +16,7 @@ import java.util.Calendar;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "book_id")
     private Integer id;
 
     @Column(name = "title")
@@ -28,10 +32,13 @@ public class Book {
     private String publisher;
 
     @Column(name = "count")
-    @NotEmpty(message = "*Provide a count")
     private Integer count;
 
     @Column(name = "publishedTime")
-    @NotEmpty(message = "*Provide a publishedTime")
-    private Calendar publishedTime;
+    private Date publishedTime;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Card> cards;
 }

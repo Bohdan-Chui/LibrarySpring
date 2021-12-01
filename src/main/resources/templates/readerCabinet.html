@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title th:text="#{cabinet}">Catalog page</title>
+</head>
+<body>
+<div class="container">
+    <div th:insert="header"></div>
+    <div class="row mx-3 pt-4 gx-5">
+        <div class="col-9">
+            <div class="row">
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" th:text="#{name}">productName</th>
+                        <th scope="col" th:text="#{place}">price</th>
+                        <th scope="col" th:text="#{status}">creationDate</th>
+                        <th scope="col" th:text="#{returnDate}">properties</th>
+                        <th scope="col" th:text="#{fine}">properties</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <div th:each="card, iStat : ${page}">
+                        <tr>
+                            <!--                        <th scope="row" th:text="${pageSize * (currentPage - 1) + iStat.index + 1}"></th>-->
+                            <!--                <c:set var="i" value="${i+1}"/>-->
+                            <td th:text="${card.book.title}"/>
+                            <td th:text="${card.place}"/>
+                            <td th:text="${card.status}"/>
+                            <td th:text="${card.returnDate}"/>
+                            <td th:text="${card.fine}"/>
+                            <td>
+                                <form th:if="${card.status == 'confirmed'}"th:action="@{/reader/book/return/{cardId}(cardId=${card.id})}" method="post">
+                                    <button class="btn btn-outline-dark btn-sm" th:text="#{returnBook}"></button>
+                                </form>
+                                <form th:if="${card.status == 'notConfirmed'}" >
+
+                                    <button class="btn btn-outline-dark btn-sm" th:text="#{returnBook}" disabled></button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item">patronymic : <p th:text="${user.patronymic}"></p></li>
+                <li class="list-group-item">First name : <p th:text="${user.firstName}"></p></li>
+                <li class="list-group-item">Second name: <p th:text="${user.secondName}"></p></li>
+                <li class="list-group-item">Email      : <p th:text="${user.email}"></p></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

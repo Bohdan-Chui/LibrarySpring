@@ -34,11 +34,6 @@ class CustomAuthentificationSuccessHandler implements AuthenticationSuccessHandl
             session.setAttribute("user", user.get());
         }
 
-        if (authorities.contains("reader")) {
-            response.sendRedirect("/mainPage");
-        }
-        else {
-            response.sendRedirect("/user/catalog");
-        }
+        response.sendRedirect("/mainPage");
     }
 }

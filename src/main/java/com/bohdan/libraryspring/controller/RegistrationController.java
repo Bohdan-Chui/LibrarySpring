@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +33,6 @@ public class RegistrationController {
     public String createNewUser(@Valid User user, BindingResult bindingResult, HttpServletRequest request)
             throws ServletException {
         HttpSession session = request.getSession();
-        System.out.println(user);
         Optional<User> userExist = userService.findUserByEmail(user.getEmail());
         if (userExist.isPresent()) {
             bindingResult
@@ -44,7 +44,6 @@ public class RegistrationController {
             return "registration";
         }
 
-        System.out.println(user);
         String preCryptPassword = user.getPassword();
         user = userService.saveUser(user);
 
@@ -52,6 +51,13 @@ public class RegistrationController {
         System.out.println("email = " + user.getEmail() + ", pass = " + preCryptPassword);
         session.setAttribute("user", user);
         return "redirect:/mainPage";
+    }
+
+    @GetMapping(value= "/mainPage")
+    public ModelAndView login(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("mainPage");
+        return modelAndView;
     }
 
 }

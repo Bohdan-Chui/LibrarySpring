@@ -1,6 +1,8 @@
 package com.bohdan.libraryspring.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -15,7 +17,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "user_id")
     private Integer id;
 
     @Column(name = "patronymic")
@@ -51,5 +53,10 @@ public class User {
 
     @Column(name = "active")
     private Boolean active;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Set<Card> cards;
 
 }

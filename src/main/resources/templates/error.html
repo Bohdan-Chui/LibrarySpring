@@ -17,15 +17,10 @@
         <div sec:authorize="isAnonymous()">
             <a type="submit" class="btn btn-primary" th:text="#{submit}" th:href="@{/index}"></a>
         </div>
-        <div sec:authorize="hasAuthority('admin')">
-            <a type="submit" class="btn btn-primary" th:text="#{submit}" th:href="@{/admin/catalog}"></a>
+        <div sec:authorize="isAuthenticated()">
+            <a type="submit" class="btn btn-primary" th:text="#{submit}" th:href="@{/mainPage}"></a>
         </div>
-        <div sec:authorize="hasAuthority('reader')">
-            <a type="submit" class="btn btn-primary" th:text="#{submit}" th:href="@{/reader/mainPage}"></a>
-        </div>
-        <div sec:authorize="hasAuthority('librarian')">
-            <a type="submit" class="btn btn-primary" th:text="#{submit}" th:href="@{/admin/catalog}"></a>
-        </div>
+
     </div>
 </div>
 </body>
