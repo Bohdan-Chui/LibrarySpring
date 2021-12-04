@@ -36,7 +36,13 @@
                             <td th:text="${card.place}"/>
                             <td th:text="${card.status}"/>
                             <td th:text="${card.returnDate}"/>
-                            <td th:text="${card.fine}"/>
+
+                           <td>
+                               <form th:with="days=${T(java.util.concurrent.TimeUnit).DAYS}, millis=${T(java.util.concurrent.TimeUnit).MILLISECONDS}">
+                                   <form th:if="${days.convert(#dates.createNow().getTime() - card.returnDate.getTime(), millis) > 0 }" th:text="${days.convert(#dates.createNow().getTime() - card.returnDate.getTime(), millis)}"/>
+                                   <form th:unless="${days.convert(#dates.createNow().getTime() - card.returnDate.getTime(), millis) > 0 }" th:text="0"/>
+                               </form>
+                           </td>
                             <td>
                                 <form th:if="${card.status == 'confirmed'}"th:action="@{/reader/book/return/{cardId}(cardId=${card.id})}" method="post">
                                     <button class="btn btn-outline-dark btn-sm" th:text="#{returnBook}"></button>

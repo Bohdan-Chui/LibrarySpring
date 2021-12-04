@@ -13,6 +13,9 @@
 
     <div class="d-flex justify-content-center pt-3">
         <form th:action="@{/login}" method="post">
+            <span th:if="${param.error}" style="color: red; text-align:center">
+                <p th:utext="#{errorMessage}"></p>
+            </span>
             <div class="mb-3">
                 <label for="inputEmail1" class="form-label"th:text="#{welcome}"></label>
                 <input type="email" name="login" class="form-control" id="inputEmail1" th:placeholder="#{inputEmail}">
@@ -24,6 +27,7 @@
             </div>
             <button type="submit" class="btn btn-primary"th:text="#{submit}"></button>
         </form>
+
     </div>
 </div>
 </body>

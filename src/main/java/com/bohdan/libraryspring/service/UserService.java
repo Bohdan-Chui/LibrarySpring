@@ -6,6 +6,8 @@ import com.bohdan.libraryspring.Repository.UserRepository;
 import com.bohdan.libraryspring.model.Role;
 import com.bohdan.libraryspring.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,17 @@ public class UserService {
     public Optional<User> findUserByEmail(String email) {
 
         return userRepository.findByEmail(email);
+    }
+
+
+    public Page<User> getAllReaders(Pageable pageable) {
+        return userRepository.getUserByRole("reader", pageable);
+    }
+
+    public void setActiveById(long id, boolean active){
+        User user = userRepository.findById((int)id);
+        user.setActive(active);
+        userRepository.save(user);
     }
 
 
