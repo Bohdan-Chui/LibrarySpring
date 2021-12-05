@@ -13,8 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping(value = "/librarian")
 public class LibarianController {
@@ -37,12 +35,12 @@ public class LibarianController {
         return modelAndView;
     }
     @PostMapping(value ="/card/delete/{cardId}" )
-    public String deleteCard(@PathVariable("cardId") long cardId , HttpServletRequest request){
+    public String deleteCard(@PathVariable("cardId") long cardId){
         cardService.deleteCard(cardId);
         return "redirect:/librarian/orders";
     }
     @PostMapping(value ="/card/confirm/{cardId}" )
-    public String confirmCard(@PathVariable("cardId") long cardId , HttpServletRequest request){
+    public String confirmCard(@PathVariable("cardId") long cardId){
         cardService.confirmCard(cardId);
         return "redirect:/librarian/orders";
 

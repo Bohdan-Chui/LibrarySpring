@@ -22,7 +22,6 @@
                         <th scope="col" th:text="#{secondname}">price</th>
                         <th scope="col" th:text="#{patronymic}">creationDate</th>
                         <th scope="col" th:text="#{email}">properties</th>
-                        <th scope="col" th:text="#{books}">properties</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>
@@ -36,18 +35,6 @@
                             <td th:text="${user.secondName}"/>
                             <td th:text="${user.patronymic}"/>
                             <td th:text="${user.email}"/>
-                            <td>
-                                <div th:each="card : ${user.cards}">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div th:text="${card.book.title}"></div>
-                                            <div th:text="${card.status}"></div>
-                                            <div th:text="${card.fine}"></div>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
                             <td>
                                 <form th:if="${user.active == true}" th:action="@{/admin/user/block/{userId}(userId=${user.id})}" method="post">
                                     <button class="btn btn-outline-dark btn-sm" th:text="#{block}"></button>

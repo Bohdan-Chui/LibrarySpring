@@ -19,13 +19,13 @@
 <body>
     <div class="row justify-content-between my-3">
 
-                <div class="col"sec:authorize="hasAuthority('reader')">
+                <div class="col" sec:authorize="hasAuthority('reader')">
                     <ul class="nav fs-4">
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/mainPage}" th:text="#{library}"></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/reader/catalog}" th:text="#{catalog}"></a>
+                            <a class="nav-link active" th:href="@{/reader/catalog/sort}" th:text="#{catalog}"></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/reader/cabinet}" th:text="#{cabinet}"></a>
@@ -34,7 +34,7 @@
                 </div>
 
 
-                <div class="col"sec:authorize="hasAuthority('librarian')">
+                <div class="col" sec:authorize="hasAuthority('librarian')">
                     <ul class="nav fs-4">
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/mainPage}" th:text="#{library}"></a>

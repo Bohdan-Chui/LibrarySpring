@@ -3,10 +3,10 @@ package com.bohdan.libraryspring.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
@@ -34,7 +34,9 @@ public class Book {
     @Column(name = "count")
     private Integer count;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "publishedTime")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publishedTime;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")

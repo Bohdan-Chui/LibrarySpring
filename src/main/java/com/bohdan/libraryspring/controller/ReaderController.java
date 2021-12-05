@@ -5,10 +5,13 @@ import com.bohdan.libraryspring.model.Card;
 import com.bohdan.libraryspring.model.User;
 import com.bohdan.libraryspring.service.BookService;
 import com.bohdan.libraryspring.service.CardService;
+
+import com.bohdan.libraryspring.util.PaginationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +32,19 @@ public class ReaderController {
 
     @GetMapping(value = "/catalog")
     public ModelAndView catalogView(Model model, @RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                    @RequestParam(name = "size", required = false, defaultValue = "10") int size){
+                                    @RequestParam(name = "size", required = false, defaultValue = "10") int size,
+                                    @RequestParam(name = "name", required = false, defaultValue = "") String name,
+                                    @RequestParam(name = "publisher", required = false, defaultValue = "") String publisher,HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("readerCatalog");
-        Pageable pageable = PageRequest.of(page-1, size);
-        Page<Book> catalogPage = bookService.getAllBooksForReader(pageable);
-        System.out.println(catalogPage.getTotalElements());
+        Sort sort = bookService.getSort((String)request.getSession().getAttribute("sort"));
+//        String name = (String) request.getAttribute("name");
+//        String publisher = (String)request.getAttribute("publisher");
+        Pageable pageable = PageRequest.of(page-1, size, sort);
+        Page<Book> catalogPage = bookService.getAllBooksForReader(pageable, name, publisher);
+        PaginationUtil.setPaginationAttributes(model,catalogPage,page, size);
         model.addAttribute("page", catalogPage);
+        request.setAttribute("name","");
         return modelAndView;
     }
 
@@ -48,7 +57,6 @@ public class ReaderController {
         modelAndView.setViewName("readerCabinet");
         Pageable pageable = PageRequest.of(page-1, size);
         Page<Card> catalogPage = cardService.getAllReaderCards(user, pageable);
-        System.out.println(catalogPage.getTotalElements());
         model.addAttribute(user);
         model.addAttribute("page", catalogPage);
         return modelAndView;
@@ -70,12 +78,16 @@ public class ReaderController {
 
     }
     @PostMapping(value ="/book/return/{cardId}" )
-    public String returnBook(@PathVariable("cardId") long cardId , HttpServletRequest request){
-
+    public String returnBook(@PathVariable("cardId") long cardId){
         cardService.deleteCard(cardId);
-
         return "redirect:/reader/cabinet";
-
+    }
+    @GetMapping("/catalog/sort")
+    public String changeSortOrder(@RequestParam(name = "sort", required = false, defaultValue = "byName") String sort,
+                                  HttpServletRequest request){
+        System.out.println("sort" + sort);
+        request.getSession().setAttribute("sort", sort);
+        return "redirect:/reader/catalog";
     }
 
 }

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{catalog}">Catalog page</title>
+</head>
+<body>
+
+<div class="container">
+    <div th:insert="header"></div>
+    <div class="row ">
+        <div class="col-9">
+            <div class="row">
+                <div class="col fs-5" th:text="#{books}">
+                </div>
+            </div>
+            <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col" th:text="#{title}">productName</th>
+                        <th scope="col" th:text="#{author}">price</th>
+                        <th scope="col" th:text="#{publisher}">creationDate</th>
+                        <th scope="col" th:text="#{publisedTime}">properties</th>
+                        <th scope="col" th:text="#{count}">properties</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <div th:each="book, iStat : ${page}">
+                        <tr>
+                            <!--                        <th scope="row" th:text="${pageSize * (currentPage - 1) + iStat.index + 1}"></th>-->
+                            <!--                <c:set var="i" value="${i+1}"/>-->
+                            <td th:text="${book.title}"/>
+                            <td th:text="${book.author}"/>
+                            <td th:text="${book.publisher}"/>
+                            <td th:text="${book.publishedTime}"/>
+                            <td th:text="${book.count}"/>
+                            <td>
+                                <form th:action="@{/admin/book/editBook/{bookId}(bookId=${book.id})}">
+                                    <button class="btn btn-outline-dark btn-sm" th:text="#{edit}">
+                                        take
+                                    </button>
+                                </form>
+                            </td>
+
+                            <td>
+                                <form th:action="@{/admin/book/delete/{bookId}(bookId=${book.id})}" method="post">
+                                    <button class="btn btn-outline-dark btn-sm" th:text="#{delete}">
+                                        take
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+            <div class="row">
+                <div class="col-md-auto">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <div th:if="${currentPage != 1}">
+                                <li>
+                                    <a class="page-link"
+                                       th:href="@{/admin/catalog(page=${currentPage - 1})}" th:text="#{previous}"></a>
+                                </li>
+                            </div>
+
+                            <div th:if="${page.totalPages > 0}"
+                                 th:each="pageNumber : ${pageNumbers}">
+                                <div th:if="${pageNumber == currentPage}">
+                                    <li class="page-item active">
+                                        <a th:text="${pageNumber}"
+                                           class="page-link" aria-disabled="true"></a>
+                                    </li>
+                                </div>
+                                <div th:unless="${pageNumber == currentPage}">
+                                    <li>
+                                        <a th:href="@{/admin/catalog(page=${pageNumber})}"
+                                           th:text="${pageNumber}"
+                                           class="page-link"></a>
+                                    </li>
+
+                                </div>
+                            </div>
+                            <div th:if="${currentPage < page.totalPages}">
+                                <li>
+                                    <a class="page-link"
+                                       th:href="@{/admin/catalog(page=${currentPage + 1})}" th:text="#{next}">next</a>
+                                </li>
+                            </div>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <form th:action="@{/admin/book/create}" th:object="${book}" method="post" >
+
+            <div class="mb-3">
+                <label for="inputName" class="form-label" th:text="#{title}"></label>
+                <input type="text" th:field="*{title}" required name="title" class="form-control" id="inputName"
+                       th:placeholder="#{enterBookName}"/>
+            </div>
+            <div class="mb-3">
+                <label for="inputAuthor" class="form-label" th:text="#{author}"></label>
+                <input type="text" th:field="*{author}" required name="title" class="form-control" id="inputAuthor"
+                       th:placeholder="#{author}"/>
+            </div>
+            <div class="mb-3">
+<!--                <label for="inputPublisher" class="form-label"><fmt:message key="publisher"/></label>-->
+<!--                <input type="text" required name="publisher" class="form-control" id="inputPublisher"-->
+<!--                       pattern="[A-Za-zА-Яа-я]+" title="<fmt:message key="lettersOnly"/>"value="${requestScope.book.publisher}">-->
+                <label for="inputPublisher" class="form-label" th:text="#{enterPublisherName}"></label>
+                <input type="text" th:field="*{publisher}" required name="title" class="form-control" id="inputPublisher"
+                       th:placeholder="#{enterPublisherName}"/>
+            </div>
+            <div class="mb-3">
+                <label for="inputPublishedTime" class="form-label" th:text="#{publisedTime}"></label>
+                <input type="date" required name="publishedTime" class="form-control" id="inputPublishedTime">
+            </div>
+            <div class="mb-3">
+                <label for="inputCount" class="form-label" th:text="#{count}"> </label>
+                <input type="number" min="0" max="1000"   th:field ="*{count}" required  name="count" class="form-control"
+                       id="inputCount">
+            </div>
+            <button type="submit" class="btn btn-primary" th:text="#{submit}"></button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

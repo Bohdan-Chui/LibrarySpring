@@ -63,7 +63,7 @@ public class CardService {
             } else if(place != null && place.equals("inLibrary")){
                 returnDate.setDate(returnDate.getDate()+1);
             }
-            cardRepository.save(new Card(0,place,"notConfirmed",returnDate , new Integer(0), book, user));
+            cardRepository.save(new Card(0,place,"notConfirmed",returnDate , 0, book, user));
             bookService.changeCount(bookId, -1);
         }
     }

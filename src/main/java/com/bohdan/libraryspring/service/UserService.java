@@ -41,11 +41,26 @@ public class UserService {
     public Page<User> getAllReaders(Pageable pageable) {
         return userRepository.getUserByRole("reader", pageable);
     }
+    public Page<User> getAllWorkers(Pageable pageable) {
+        return userRepository.getUserByRole("librarian", pageable);
+    }
 
     public void setActiveById(long id, boolean active){
         User user = userRepository.findById((int)id);
         user.setActive(active);
         userRepository.save(user);
+    }
+    public User saveLibrarian(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        Role userRole = roleRepository.findByRole("librarian");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        System.out.println(user);
+        return userRepository.save(user);
+    }
+    public void deleteUserById(long userId){
+        User user = userRepository.findById((int) userId);
+        userRepository.delete(user);
     }
 
 

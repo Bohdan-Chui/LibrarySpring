@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{librarians}"></title>
+</head>
+<body>
+
+<div class="container">
+    <div th:insert="header"></div>
+    <div class="row ">
+        <div class="col-9">
+            <div class="row">
+                <div class="col fs-5" th:text="#{librarians}">
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col" th:text="#{firstname}">productName</th>
+                    <th scope="col" th:text="#{secondname}">price</th>
+                    <th scope="col" th:text="#{patronymic}">creationDate</th>
+                    <th scope="col" th:text="#{email}">properties</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <div th:each="user, iStat : ${page}">
+                    <tr>
+                        <!--                        <th scope="row" th:text="${pageSize * (currentPage - 1) + iStat.index + 1}"></th>-->
+                        <!--                <c:set var="i" value="${i+1}"/>-->
+                        <td th:text="${user.firstName}"/>
+                        <td th:text="${user.secondName}"/>
+                        <td th:text="${user.patronymic}"/>
+                        <td th:text="${user.email}"/>
+                        <td>
+                            <form th:action="@{/admin/librarian/delete/{userId}(userId=${user.id})}" method="post">
+                                <button class="btn btn-outline-dark btn-sm" th:text="#{delete}"></button>
+                            </form>
+
+
+                        </td>
+
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col">
+            <form th:action="@{/admin/workers}" th:object="${user}" method="post">
+                <div class="mb-3">
+                    <label for="inputPatronymic" class="form-label" th:text="#{patronymic}"></label>
+                    <input type="text" th:field="*{patronymic}" required name="patronymic" class="form-control" id="inputPatronymic"
+                           th:placeholder="#{enterPatronymic}" />
+                </div>
+                <div class="mb-3">
+                    <label for="inputFirstName" class="form-label" th:text="#{firstname}"></label>
+                    <input type="text" th:field="*{firstName}" required name="firstname" class="form-control" id="inputFirstName"
+                           th:placeholder="#{inputFirstName}">
+                </div>
+                <div class="mb-3">
+                    <label for="inputSecondName" class="form-label" th:text="#{secondname}"></label>
+                    <input type="text" th:field="*{secondName}" required name="secondname" class="form-control" id="inputSecondName"
+                           th:placeholder="#{inputSecondname}">
+                </div>
+                <div class="mb-3">
+                    <label for="inputEmail1" class="form-label" th:text="#{email}"></label>
+                    <input type="text" required th:field="*{email}"  class="form-control" id="inputEmail1" th:placeholder="#{inputEmail}">
+                    <div id="emailHelp" class="form-text" th:text="#{safety}"></div>
+                </div>
+                <div class="mb-3">
+                    <label for="inputPassword1" th:field="*{password}" class="form-label" th:text="#{inputPassword}"></label>
+                    <input type="password" required name="password" class="form-control" id="inputPassword1" th:placeholder="#{inputPassword}">
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="#{submit}"></button>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

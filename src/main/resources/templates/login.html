@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title th:text="#{login}"></title>
@@ -17,15 +16,15 @@
                 <p th:utext="#{errorMessage}"></p>
             </span>
             <div class="mb-3">
-                <label for="inputEmail1" class="form-label"th:text="#{welcome}"></label>
+                <label for="inputEmail1" class="form-label" th:text="#{welcome}"></label>
                 <input type="email" name="login" class="form-control" id="inputEmail1" th:placeholder="#{inputEmail}">
-                <div id="emailHelp" class="form-text"th:text="#{safety}"></div>
+                <div id="emailHelp" class="form-text" th:text="#{safety}"></div>
             </div>
             <div class="mb-3">
-                <label for="inputPassword1" class="form-label"th:text="#{password}"></label>
+                <label for="inputPassword1" class="form-label" th:text="#{password}"></label>
                 <input type="password" name="password" class="form-control" id="inputPassword1" th:placeholder="#{inputPassword}">
             </div>
-            <button type="submit" class="btn btn-primary"th:text="#{submit}"></button>
+            <button type="submit" class="btn btn-primary" th:text="#{submit}"></button>
         </form>
 
     </div>
