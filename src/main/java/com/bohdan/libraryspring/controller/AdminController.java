@@ -5,6 +5,7 @@ import com.bohdan.libraryspring.model.User;
 import com.bohdan.libraryspring.service.BookService;
 import com.bohdan.libraryspring.service.UserService;
 import com.bohdan.libraryspring.util.PaginationUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@Log4j2
 @Controller
 @RequestMapping(value = "/admin")
 public class AdminController {
@@ -33,11 +35,13 @@ public class AdminController {
         Pageable pageable = PageRequest.of(page-1, size);
         Page<User> catalogPage = userService.getAllReaders(pageable);
         model.addAttribute("page", catalogPage);
+        log.info("signup page successfully set up");
         return "adminUsers";
     }
     @PostMapping(value ="/user/block/{userId}" )
     public String blockUser(@PathVariable("userId") long userId ){
         userService.setActiveById(userId, false);
+        log.info("used bloked id: "  + userId);
         return "redirect:/admin/users";
     }
     @PostMapping(value ="/user/unblock/{userId}" )
@@ -53,6 +57,7 @@ public class AdminController {
         model.addAttribute("page", catalogPage);
         User user = new User();
         model.addAttribute("user", user);
+        log.info("workers page successfully set up");
         return "adminLibrarians";
     }
     @PostMapping(value = "/workers")
@@ -71,7 +76,9 @@ public class AdminController {
         String preCryptPassword = user.getPassword();
         user = userService.saveLibrarian(user);
         System.out.println("email = " + user.getEmail() + ", pass = " + preCryptPassword);
+        log.info("librarain cleated ");
         return "redirect: /admin/workers";
+
     }
     @PostMapping(value ="/librarian/delete/{userId}" )
     public String deleteLibrarian(@PathVariable("userId") long userId ){
@@ -89,6 +96,8 @@ public class AdminController {
         PaginationUtil.setPaginationAttributes(model,catalogPage,page, size);
         Book book = new Book();
         model.addAttribute("book", book);
+        log.info("catalog page successfully set up ");
+
         return modelAndView;
     }
     @PostMapping(value = "/book/create")
@@ -101,20 +110,22 @@ public class AdminController {
             System.out.println(bindingResult.getAllErrors());
             return "redirect:/admin/catalog";
         }
-        System.out.println(book);
-        System.out.println(bookService.saveBook(book));
+        log.info("book created" + book);
         return "redirect:/admin/catalog";
     }
 
     @PostMapping(value ="/book/delete/{bookId}" )
     public String deleteCard(@PathVariable("bookId") long bookId){
         bookService.deleteBook(bookId);
+        log.info("Book deleted id:" +  bookId);
         return "redirect:/admin/catalog";
+
     }
     @GetMapping(value ="/book/editBook/{bookId}" )
     public String editBook(@PathVariable("bookId") long bookId, Model model){
         Book book = bookService.getBookById(bookId);
         model.addAttribute("book", book);
+        log.info("edit book  " + book);
         return "editBook";
     }
     @PostMapping(value = "/book/save")
@@ -123,6 +134,7 @@ public class AdminController {
         bookService.deleteBook(book.getId());
         System.out.println(book);
         bookService.saveBook(book);
+        log.info("book saved " + book);
         return "redirect:/admin/catalog";
     }
 }

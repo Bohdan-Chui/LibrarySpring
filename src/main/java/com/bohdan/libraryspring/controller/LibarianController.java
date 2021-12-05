@@ -4,6 +4,7 @@ import com.bohdan.libraryspring.model.Card;
 import com.bohdan.libraryspring.model.User;
 import com.bohdan.libraryspring.service.CardService;
 import com.bohdan.libraryspring.service.UserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+@Log4j2
 @Controller
 @RequestMapping(value = "/librarian")
 public class LibarianController {
@@ -32,16 +34,19 @@ public class LibarianController {
         Page<Card> catalogPage = cardService.getAllUnconfirmedOrders(pageable);
         System.out.println(catalogPage.getTotalElements());
         model.addAttribute("page", catalogPage);
+        log.info("Order page set up");
         return modelAndView;
     }
     @PostMapping(value ="/card/delete/{cardId}" )
     public String deleteCard(@PathVariable("cardId") long cardId){
         cardService.deleteCard(cardId);
+        log.info("delete card id: " + cardId);
         return "redirect:/librarian/orders";
     }
     @PostMapping(value ="/card/confirm/{cardId}" )
     public String confirmCard(@PathVariable("cardId") long cardId){
         cardService.confirmCard(cardId);
+        log.info("card id: "+ cardId + " confirmed");
         return "redirect:/librarian/orders";
 
     }
@@ -51,7 +56,7 @@ public class LibarianController {
         Pageable pageable = PageRequest.of(page-1, size);
         Page<User> catalogPage = userService.getAllReaders(pageable);
         model.addAttribute("page", catalogPage);
-
+        log.info("users page set up");
         return "librarianUsers";
     }
 

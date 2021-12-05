@@ -2,6 +2,7 @@ package com.bohdan.libraryspring.controller;
 
 import com.bohdan.libraryspring.model.User;
 import com.bohdan.libraryspring.service.UserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Optional;
 
+@Log4j2
 @Controller
 public class RegistrationController {
 
@@ -26,6 +28,7 @@ public class RegistrationController {
     public String showSignUpPage(Model model) {
         User user = new User();
         model.addAttribute("user", user);
+        log.info("registration page set up");
         return "registration";
     }
 
@@ -48,7 +51,7 @@ public class RegistrationController {
         user = userService.saveUser(user);
 
         request.login(user.getEmail(), preCryptPassword);
-        System.out.println("email = " + user.getEmail() + ", pass = " + preCryptPassword);
+        log.info("email = " + user.getEmail() + ", pass = " + preCryptPassword);
         session.setAttribute("user", user);
         return "redirect:/mainPage";
     }
@@ -57,6 +60,7 @@ public class RegistrationController {
     public ModelAndView login(){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("mainPage");
+        log.info("main page set up");
         return modelAndView;
     }
 
