@@ -14,20 +14,23 @@
     </div>
     <div class="d-flex justify-content-center pt-3">
         <form th:href="@{/registration}" th:object="${user}" method="post">
+             <span th:if="${param.error}" style="color: red; text-align:center">
+                <p th:utext="#{errorMessage}"></p>
+            </span>
             <div class="mb-3">
                 <label for="inputPatronymic" class="form-label" th:text="#{patronymic}"></label>
                 <input type="text" th:field="*{patronymic}" required name="patronymic" class="form-control" id="inputPatronymic"
-                        th:placeholder="#{enterPatronymic}"/>
+                        th:placeholder="#{enterPatronymic}" pattern="[A-Za-zА-Яа-я]" th:title="#{lettersOnly}"/>
             </div>
             <div class="mb-3">
                 <label for="inputFirstName" class="form-label" th:text="#{firstname}"></label>
                 <input type="text" th:field="*{firstName}" required name="firstname" class="form-control" id="inputFirstName"
-                       th:placeholder="#{inputFirstName}">
+                       th:placeholder="#{inputFirstName}" pattern="[A-Za-zА-Яа-я]" th:title="#{lettersOnly}" />
             </div>
             <div class="mb-3">
                 <label for="inputSecondName" class="form-label" th:text="#{secondname}"></label>
                 <input type="text" th:field="*{secondName}" required name="secondname" class="form-control" id="inputSecondName"
-                       th:placeholder="#{inputSecondname}">
+                       th:placeholder="#{inputSecondname}" pattern="[A-Za-zА-Яа-я]" th:title="#{lettersOnly}" />
             </div>
             <div class="mb-3">
                 <label for="inputEmail1" class="form-label" th:text="#{email}"></label>
