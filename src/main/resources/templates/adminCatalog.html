@@ -107,7 +107,7 @@
             <div class="mb-3">
                 <label for="inputAuthor" class="form-label" th:text="#{author}"></label>
                 <input type="text" th:field="*{author}" required name="title" class="form-control" id="inputAuthor"
-                       th:placeholder="#{author}"/>
+                       th:placeholder="#{author}" pattern="[A-Za-zА-Яа-я]+" th:title="#{lettersOnly}"/>
             </div>
             <div class="mb-3">
 <!--                <label for="inputPublisher" class="form-label"><fmt:message key="publisher"/></label>-->
@@ -115,7 +115,7 @@
 <!--                       pattern="[A-Za-zА-Яа-я]+" title="<fmt:message key="lettersOnly"/>"value="${requestScope.book.publisher}">-->
                 <label for="inputPublisher" class="form-label" th:text="#{enterPublisherName}"></label>
                 <input type="text" th:field="*{publisher}" required name="title" class="form-control" id="inputPublisher"
-                       th:placeholder="#{enterPublisherName}"/>
+                       th:placeholder="#{enterPublisherName}" />
             </div>
             <div class="mb-3">
                 <label for="inputPublishedTime" class="form-label" th:text="#{publisedTime}"></label>

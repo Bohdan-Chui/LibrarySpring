@@ -21,17 +21,14 @@ public class User {
     private Integer id;
 
     @Column(name = "patronymic")
-    @Length(min = 5, message = "*Your user patronymic must have at least 5 characters")
     @NotEmpty(message = "*Please provide a patronymic")
     private String patronymic;
 
     @Column(name = "firstname")
-    @Length(min = 5, message = "*Your user firstname must have at least 5 characters")
     @NotEmpty(message = "*Please provide a firstname")
     private String firstName;
 
     @Column(name = "secondname")
-    @Length(min = 5, message = "*Your user secondname must have at least 5 characters")
     @NotEmpty(message = "*Please provide a secondname")
     private String secondName;
 
